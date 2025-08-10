@@ -23,7 +23,7 @@ public class Application {
     public String hello() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return "Hello from Microservice 2 - Current Time: " + now.format(formatter) + " (ENV: " + environment.toUpperCase() + ")";
+        return "Hello from Microservice 600 - Current Time: " + now.format(formatter) + " (ENV: " + environment.toUpperCase() + ")";
     }
     
     @GetMapping("/health")
