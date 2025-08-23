@@ -40,7 +40,7 @@ public class Application {
         logger.info("🚀 Main endpoint accessed - Environment: {}, Timestamp: {}", 
                     environment.toUpperCase(), now.format(formatter));
         
-        String response = "Hello from Microservice 222 - DEV环境自动部署测试 v7.001666 - ArgoCD Test - Current Time: " + now.format(formatter) + " (ENV: " + environment.toUpperCase() + ")";
+        String response = "Hello from Microservice 222 - DEV环境自动部署测试 v7.0016662 - ArgoCD Test - Current Time: " + now.format(formatter) + " (ENV: " + environment.toUpperCase() + ")";
         
         logger.info("📊 Request processed successfully for main endpoint");
         
