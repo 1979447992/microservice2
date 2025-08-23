@@ -24,10 +24,11 @@ public class Application {
         System.out.println("DEBUG: ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789!");
         System.out.println("DEBUG: Extra DEV branch letters: HELLO WORLD ABC XYZ!");
         System.out.println("DEBUG: Current time: " + java.time.LocalDateTime.now());
-        System.out.println("DEBUG: NEW DEPLOYMENT TEST - MICROSERVICE2 DEV v7.001!");
+        System.out.println("DEBUG: NEW DEPLOYMENT TEST - MICROSERVICE2 DEV v7.002!");
         System.out.println("DEBUG: TESTING ARGOCD AUTO DEPLOYMENT FEATURE!");
         System.out.println("DEBUG: ENHANCED LOGGING FOR CI/CD PIPELINE VERIFICATION!");
         System.out.println("DEBUG: MICROSERVICE2 READY FOR ARGOCD SYNC - FORCE TRIGGER!");
+        // Trigger CI/CD build with logging functionality
         SpringApplication.run(Application.class, args);
     }
 
