@@ -53,7 +53,6 @@ jobs:
           token: ${{ secrets.GITOPS_TOKEN }} # Note: A PAT with repo scope is required
           ref: ${{ steps.meta.outputs.BRANCH_NAME == 'dev' && 'dev' || 'sit' }}
           path: project-gitops-config
-          ref: ${{ steps.meta.outputs.BRANCH_NAME == 'dev' && 'dev' || 'sit' }}
 
       - name: Update GitOps repository
         run: |
