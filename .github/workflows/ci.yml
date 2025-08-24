@@ -31,8 +31,10 @@ jobs:
       - name: Generate version
         id: meta
         run: |
-          VERSION=dev-$(git rev-parse --short HEAD)
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          VERSION=${BRANCH_NAME}-$(git rev-parse --short HEAD)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_OUTPUT
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -49,17 +51,17 @@ jobs:
         with:
           repository: 1979447992/project-gitops-config
           token: ${{ secrets.GITOPS_TOKEN }} # Note: A PAT with repo scope is required
-          ref: dev  # Checkout dev branch to match current environment
+          ref: ${{ steps.meta.outputs.BRANCH_NAME == 'dev' && 'dev' || 'sit' }}
           path: project-gitops-config
 
       - name: Update GitOps repository
         run: |
           cd project-gitops-config
-          git checkout dev  # Ensure we're on dev branch
-          VERSION_TAG="${{ steps.meta.outputs.VERSION }}"
-          yq -i ".image.tag = \"$VERSION_TAG\"" environments/dev/microservice2-values.yaml
+          BRANCH_NAME=${{ steps.meta.outputs.BRANCH_NAME }}
+          ENV_PATH="environments/${BRANCH_NAME}/microservice2-values.yaml"
+          yq -i ".image.tag = \"${{ steps.meta.outputs.VERSION }}\"" $ENV_PATH
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add environments/dev/microservice2-values.yaml
-          git commit -m "Update image tag for microservice2 to $VERSION_TAG"
-          git push origin dev
+          git add $ENV_PATH
+          git commit -m "Update image tag for microservice2 to ${{ steps.meta.outputs.VERSION }}"
+          git push origin $BRANCH_NAME
