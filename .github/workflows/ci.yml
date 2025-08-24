@@ -49,14 +49,17 @@ jobs:
         with:
           repository: 1979447992/project-gitops-config
           token: ${{ secrets.GITOPS_TOKEN }} # Note: A PAT with repo scope is required
+          ref: dev  # Checkout dev branch to match current environment
           path: project-gitops-config
 
       - name: Update GitOps repository
         run: |
           cd project-gitops-config
+          git checkout dev  # Ensure we're on dev branch
           VERSION_TAG="${{ steps.meta.outputs.VERSION }}"
           yq -i ".image.tag = \"$VERSION_TAG\"" environments/dev/microservice2-values.yaml
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -am "Update image tag for microservice2 to $VERSION_TAG"
-          git push
+          git add environments/dev/microservice2-values.yaml
+          git commit -m "Update image tag for microservice2 to $VERSION_TAG"
+          git push origin dev
