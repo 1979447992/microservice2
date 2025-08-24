@@ -54,8 +54,9 @@ jobs:
       - name: Update GitOps repository
         run: |
           cd project-gitops-config
-          yq -i ".image.tag = \"dev-$(echo $GITHUB_SHA | cut -c1-7)\"" environments/dev/microservice2-values.yaml
+          VERSION_TAG="${{ steps.meta.outputs.VERSION }}"
+          yq -i ".image.tag = \"$VERSION_TAG\"" environments/dev/microservice2-values.yaml
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -am "Update image tag for microservice2 to ${{ steps.meta.outputs.VERSION }}"
+          git commit -am "Update image tag for microservice2 to $VERSION_TAG"
           git push
